@@ -3,7 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instapro/Bloc/insta_bloc.dart';
+import 'package:instapro/HighlightBloc/highlight_bloc.dart';
+import 'package:instapro/Post/post_bloc.dart';
+import 'package:instapro/Repository/ModelClass/HighlightModel.dart';
 import 'package:instapro/Repository/ModelClass/InstaModel.dart';
+import 'package:instapro/Repository/ModelClass/PostModel.dart';
+import 'package:instapro/Repository/ModelClass/TagModel.dart';
+import 'package:instapro/TagBloc/tag_bloc.dart';
 import 'package:instapro/UI/Follower.dart';
 
 class Profile extends StatefulWidget {
@@ -15,6 +21,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   late InstaModel insta;
+  late HighlightModel highlight;
+  late PostModel post;
+  late TagModel tag;
+
   TextEditingController controller = TextEditingController();
 
   @override
@@ -23,18 +33,28 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: SizedBox(height: 45.h,
+          title: SizedBox(
+            height: 54.h,
             child: TextField(
+              controller: controller,
               style: TextStyle(color: Colors.white),
               onSubmitted: (value) {
                 BlocProvider.of<InstaBloc>(context)
                     .add(Fetchinsta(userName: controller.text));
+                BlocProvider.of<HighlightBloc>(context)
+                    .add(FetchHighlight(hightlight: controller.text));
+                BlocProvider.of<PostBloc>(context)
+                    .add(FeatchPost(post: controller.text));
+                BlocProvider.of<TagBloc>(context)
+                    .add(FeatchTag(tag: controller.text));
               },
-              controller: controller,
               decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20.r),borderSide: BorderSide(color: Colors.red)),
-               focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(20.r),borderSide: BorderSide(color: Colors.white)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.r),
+                    borderSide: BorderSide(color: Colors.red)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.r),
+                    borderSide: BorderSide(color: Colors.white)),
                 hintText: "Search",
                 hintStyle: TextStyle(color: Colors.white),
               ),
@@ -52,7 +72,7 @@ class _ProfileState extends State<Profile> {
             }
             if (state is instaBlocLoaded) {
               insta = BlocProvider.of<InstaBloc>(context).instaModel;
-              print('hello'+insta.data!.mediaCount.toString());
+              print('hello' + insta.data!.mediaCount.toString());
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,9 +81,9 @@ class _ProfileState extends State<Profile> {
                       Padding(
                         padding: const EdgeInsets.only(left: 4),
                         child: CircleAvatar(
-                          radius: 38.r,
-                          backgroundImage:NetworkImage(insta.data!.profilePicUrl.toString())
-                        ),
+                            radius: 45.r,
+                            backgroundImage: NetworkImage(
+                                insta.data!.profilePicUrlHd.toString())),
                       ),
                       SizedBox(
                         width: 15.h,
@@ -76,7 +96,7 @@ class _ProfileState extends State<Profile> {
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
+                                fontSize: 21.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -87,7 +107,7 @@ class _ProfileState extends State<Profile> {
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
+                                fontSize: 21.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -108,7 +128,7 @@ class _ProfileState extends State<Profile> {
                               style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.sp,
+                                  fontSize: 21.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -119,7 +139,7 @@ class _ProfileState extends State<Profile> {
                               style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.sp,
+                                  fontSize: 21.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -136,7 +156,7 @@ class _ProfileState extends State<Profile> {
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
+                                fontSize: 21.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -147,7 +167,7 @@ class _ProfileState extends State<Profile> {
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
+                                fontSize: 21.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -203,8 +223,8 @@ class _ProfileState extends State<Profile> {
                     child: Row(children: [
                       Row(children: [
                         Container(
-                          width: 95.w,
-                          height: 30.h,
+                          width: 120.w,
+                          height: 40.h,
                           decoration: ShapeDecoration(
                             color: Colors.blue,
                             shape: RoundedRectangleBorder(
@@ -213,14 +233,14 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 3),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Text(
                               'Follow',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -231,8 +251,8 @@ class _ProfileState extends State<Profile> {
                           width: 8.w,
                         ),
                         Container(
-                          width: 95.w,
-                          height: 30.h,
+                          width: 120.w,
+                          height: 40.h,
                           decoration: ShapeDecoration(
                             color: Colors.black38,
                             shape: RoundedRectangleBorder(
@@ -242,14 +262,14 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 3),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Text(
                               'Message',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -260,8 +280,8 @@ class _ProfileState extends State<Profile> {
                           width: 8.w,
                         ),
                         Container(
-                          width: 95.w,
-                          height: 30.h,
+                          width: 110.w,
+                          height: 40.h,
                           decoration: ShapeDecoration(
                             color: Colors.black38,
                             shape: RoundedRectangleBorder(
@@ -271,14 +291,14 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 3),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Text(
                               'Email',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -289,8 +309,8 @@ class _ProfileState extends State<Profile> {
                           width: 8.w,
                         ),
                         Container(
-                          width: 30.w,
-                          height: 30.h,
+                          width: 40.w,
+                          height: 40.h,
                           decoration: ShapeDecoration(
                             color: Colors.black38,
                             shape: RoundedRectangleBorder(
@@ -308,40 +328,55 @@ class _ProfileState extends State<Profile> {
                       ]),
                     ]),
                   ),
-                  SizedBox(
-                    width: double.infinity.w,
-                    height: 70.h,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 10),
-                      child: ListView.separated(
-                        itemCount: 5,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, position) {
-                          return CircleAvatar(
-                            radius: 39.r,
-                            backgroundColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.5),
-                              child: CircleAvatar(
-                                radius: 38.r,
-                                backgroundColor: Color(0xFF7B6FC5),
-                                child: SizedBox(
-                                    width: 40.w,
-                                    height: 40.h,
-                                    child: Image.asset(
-                                      "assets/pro.png",
-                                    )),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, position) {
-                          return SizedBox(
-                            width: 2.w,
-                          );
-                        },
-                      ),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 10),
+                    child: BlocBuilder<HighlightBloc, HighlightState>(
+                        builder: (context, state) {
+                      if (state is highlightBlocloading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (state is highlightBlocError) {
+                        return SizedBox();
+                      }
+                      if (state is highlightBlocloaded) {
+                        highlight = BlocProvider.of<HighlightBloc>(context)
+                            .highlightModel;
+                        return SizedBox(
+                          width: double.infinity.w,
+                          height: 70.h,
+                          child: ListView.separated(
+                            itemCount: highlight.data!.items!.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, position) {
+                              return CircleAvatar(
+                                radius: 45.r,
+                                backgroundColor: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1.2),
+                                  child: CircleAvatar(
+                                    radius: 50.r,
+                                    backgroundImage: NetworkImage(highlight
+                                        .data!
+                                        .items![position]
+                                        .coverMedia!
+                                        .croppedImageVersion!
+                                        .url
+                                        .toString()),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, position) {
+                              return SizedBox(
+                                width: 2.w,
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
                   Container(
                     width: double.infinity,
@@ -372,36 +407,68 @@ class _ProfileState extends State<Profile> {
                       SizedBox(
                         width: 60.w,
                         height: 70.h,
-                        child: GridView.count(
-                          crossAxisCount: 3,
-                          shrinkWrap: true,
-                          children: List.generate(
-                            20,
-                            (index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    image: DecorationImage(
-                                      image: NetworkImage('img.png'),
-                                      fit: BoxFit.cover,
+                        child: BlocBuilder<PostBloc, PostState>(
+                            builder: (context, state) {
+                          if (state is PostBlocLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (state is PostBlocError) {
+                            return SizedBox();
+                          }
+                          if (state is PostBlocLoaded) {
+
+                            post = BlocProvider.of<PostBloc>(context).postModel;
+                            print("hi" + post.data!.items.toString());
+                            return GridView.count(
+                              crossAxisCount: 3,
+                              shrinkWrap: true,
+                              children: List.generate(
+                                post.data!.items!.length,
+                                (index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(.5),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        image: DecorationImage(
+                                          image: NetworkImage(post
+                                              .data!
+                                              .items![index]
+                                              .imageVersions!
+                                              .items![0]
+                                              .url
+                                              .toString()),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        }),
                       ),
                       SizedBox(
                         width: 60.w,
                         height: 70.h,
-                        child: GridView.count(
+                        child: BlocBuilder<TagBloc, TagState>(
+  builder: (context, state) {
+    if (state is TagBlocLoading){
+      return Center(child: CircularProgressIndicator());
+    }
+    if (state is TagBlocError){
+      return SizedBox();
+    }
+    if(state is TagBlocLoaded){
+      tag=BlocProvider.of<TagBloc>(context).tagModel;
+    return GridView.count(
                           crossAxisCount: 3,
                           shrinkWrap: true,
                           children: List.generate(
-                            20,
+                         tag.data!.items!.length,
                             (index) {
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
@@ -409,7 +476,7 @@ class _ProfileState extends State<Profile> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     image: DecorationImage(
-                                      image: NetworkImage('img.png'),
+                                      image: NetworkImage(tag.data!.items![index].displayUrl.toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -417,7 +484,9 @@ class _ProfileState extends State<Profile> {
                               );
                             },
                           ),
-                        ),
+                        );
+  }else {return SizedBox();}}
+),
                       ),
                     ]),
                   )
@@ -426,7 +495,6 @@ class _ProfileState extends State<Profile> {
             } else {
               return SizedBox();
             }
-            ;
           }),
         ));
   }

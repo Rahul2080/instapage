@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instapro/Bloc/insta_bloc.dart';
+import 'package:instapro/HighlightBloc/highlight_bloc.dart';
+import 'package:instapro/Post/post_bloc.dart';
+import 'package:instapro/TagBloc/tag_bloc.dart';
 import 'package:instapro/UI/Profile.dart';
 
 void main() {
@@ -15,12 +18,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      designSize: const Size(430, 931.09),
         minTextAdapt: true,
         splitScreenMode: true,
         // Use builder only if you need to use library outside ScreenUtilInit context
         builder: (_, child) {
-          return BlocProvider(
-            create: (context) => InstaBloc(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => InstaBloc(),
+              ),
+              BlocProvider(
+                create: (context) => HighlightBloc(),
+              ),
+          BlocProvider(
+          create: (context) => PostBloc()),
+              BlocProvider(
+                create: (context) => TagBloc(),
+              ),
+            ],
             child: MaterialApp(
                 title: 'Flutter Demo',
                 theme: ThemeData(

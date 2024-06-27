@@ -13,7 +13,7 @@ class InstaApi {
 
 
   Future<InstaModel> getinsta(String userName) async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/highlights?username_or_id_or_url=$userName';
+    String trendingpath ='https://instagram-scraper-api2.p.rapidapi.com/v1/info?username_or_id_or_url=$userName';
 
     var body = {
 
