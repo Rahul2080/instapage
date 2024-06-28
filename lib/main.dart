@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instapro/Bloc/insta_bloc.dart';
-import 'package:instapro/HighlightBloc/highlight_bloc.dart';
-import 'package:instapro/Post/post_bloc.dart';
-import 'package:instapro/TagBloc/tag_bloc.dart';
+import 'package:instapro/Bloc/FollowerBloc/follower_bloc.dart';
+import 'package:instapro/Bloc/FollowingBloc/following_bloc.dart';
+import 'package:instapro/Bloc/HighlightBloc/highlight_bloc.dart';
+import 'package:instapro/Bloc/InstaBloc/insta_bloc.dart';
+import 'package:instapro/Bloc/Post/post_bloc.dart';
+import 'package:instapro/Bloc/TagBloc/tag_bloc.dart';
 import 'package:instapro/UI/Profile.dart';
 
 void main() {
@@ -32,10 +34,14 @@ class MyApp extends StatelessWidget {
                 create: (context) => HighlightBloc(),
               ),
           BlocProvider(
-          create: (context) => PostBloc()),
+                  create: (context) => PostBloc()),
               BlocProvider(
                 create: (context) => TagBloc(),
               ),
+              BlocProvider(
+                  create: (context) => FollowerBloc()),
+              BlocProvider(
+                  create: (context) => FollowingBloc()),
             ],
             child: MaterialApp(
                 title: 'Flutter Demo',

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:instapro/Bloc/insta_bloc.dart';
-import 'package:instapro/HighlightBloc/highlight_bloc.dart';
-import 'package:instapro/Post/post_bloc.dart';
+import 'package:instapro/Bloc/HighlightBloc/highlight_bloc.dart';
+import 'package:instapro/Bloc/InstaBloc/insta_bloc.dart';
+import 'package:instapro/Bloc/Post/post_bloc.dart';
+import 'package:instapro/Bloc/TagBloc/tag_bloc.dart';
 import 'package:instapro/Repository/ModelClass/HighlightModel.dart';
 import 'package:instapro/Repository/ModelClass/InstaModel.dart';
 import 'package:instapro/Repository/ModelClass/PostModel.dart';
 import 'package:instapro/Repository/ModelClass/TagModel.dart';
-import 'package:instapro/TagBloc/tag_bloc.dart';
 import 'package:instapro/UI/Follower.dart';
 
 class Profile extends StatefulWidget {
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> {
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => Follower()));
+                              MaterialPageRoute(builder: (_) => Follower(userName: insta.data!.username.toString(), index: 0,)));
                         },
                         child: Column(
                           children: [
@@ -147,32 +147,35 @@ class _ProfileState extends State<Profile> {
                           ],
                         ),
                       ),
-                      SizedBox(width: 10.w),
-                      Column(
-                        children: [
-                          Text(
-                            insta.data!.followingCount.toString(),
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 21.sp,
-                                fontWeight: FontWeight.w500,
+                      GestureDetector(
+                        onTap: () { Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_)=> Follower(userName: insta.data!.username.toString(), index: 1,))); },
+                        child: Column(
+                          children: [
+                            Text(
+                              insta.data!.followingCount.toString(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 21.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            'Following',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 21.sp,
-                                fontWeight: FontWeight.w500,
+                            Text(
+                              'Following',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 21.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
