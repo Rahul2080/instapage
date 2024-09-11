@@ -31,11 +31,11 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(
+        appBar: AppBar(toolbarHeight: 100.h,
           backgroundColor: Colors.black,
           title: SizedBox(
             height: 54.h,
-            child: TextField(
+            child: TextField(cursorColor: Colors.white,
               controller: controller,
               style: TextStyle(color: Colors.white),
               onSubmitted: (value) {
@@ -50,12 +50,13 @@ class _ProfileState extends State<Profile> {
               },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.r),
-                    borderSide: BorderSide(color: Colors.red)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.r),
+                    borderRadius: BorderRadius.circular(10.r),
                     borderSide: BorderSide(color: Colors.white)),
-                hintText: "Search",
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: BorderSide(color: Colors.white)),
+
+                hintText: "Search..",
                 hintStyle: TextStyle(color: Colors.white),
               ),
             ),
@@ -83,7 +84,7 @@ class _ProfileState extends State<Profile> {
                         child: CircleAvatar(
                             radius: 45.r,
                             backgroundImage: NetworkImage(
-                                insta.data!.profilePicUrlHd.toString())),
+                                insta.data!.profilePicUrlHd.toString(),),),
                       ),
                       SizedBox(
                         width: 15.h,
